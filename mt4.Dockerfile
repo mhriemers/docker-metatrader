@@ -24,7 +24,7 @@ RUN wget -O /tmp/mt4setup.exe ${MT4_URL} &&  \
     rm /tmp/mt4setup.exe
 
 COPY entrypoint.sh /bin/entrypoint
-RUN chmod +x /bin/entrypoint.sh
+RUN chmod +x /bin/entrypoint
 
 ENTRYPOINT ["/bin/entrypoint", "-4", "-i", "${WINEPREFIX}/drive_c/Program Files/${MT4_DIR_NAME}/"]
 CMD ["verify"]

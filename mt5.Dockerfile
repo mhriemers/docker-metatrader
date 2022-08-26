@@ -22,7 +22,7 @@ RUN wget -O /tmp/mt5setup.exe https://download.mql5.com/cdn/web/metaquotes.softw
     rm -rf /tmp/*
 
 COPY entrypoint.sh /bin/entrypoint
-RUN chmod +x /bin/entrypoint.sh
+RUN chmod +x /bin/entrypoint
 
 ENTRYPOINT ["/bin/entrypoint", "-5", "-i", "${WINEPREFIX}/drive_c/Program Files/MetaTrader 5/"]
 CMD ["verify"]
