@@ -4,17 +4,11 @@ RUN echo "x86" > /etc/apk/arch
 
 ARG WINE_VERSION=7.8
 ARG WINE_VERSION_SUFFIX=r0
-ARG XVFB_VERSION=21.1.4
-ARG XVFB_VERSION_SUFFIX=r0
-ARG XVFB_RUN_VERSION=1.20.7.3
-ARG XVFB_RUN_VERSION_SUFFIX=r0
-ARG WGET_VERSION=1.21.3
-ARG WGET_VERSION_SUFFIX=r0
 RUN apk add --no-cache \
         wine=${WINE_VERSION}-${WINE_VERSION_SUFFIX} \
-        xvfb=${XVFB_VERSION}-${XVFB_VERSION_SUFFIX} \
-        xvfb-run=${XVFB_RUN_VERSION}-${XVFB_RUN_VERSION_SUFFIX} \
-        wget=${WGET_VERSION}-${WGET_VERSION_SUFFIX}
+        xvfb=21.1.4-r0 \
+        xvfb-run=1.20.7.3-r0 \
+        wget=1.21.3-r0
 
 ARG WINEPREFIX="/root/.wine"
 ARG WINEDLLOVERRIDES="mscoree,mshtml=,winebrowser.exe="
