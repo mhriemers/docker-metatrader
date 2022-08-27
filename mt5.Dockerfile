@@ -11,9 +11,9 @@ RUN apk add --no-cache \
         wget=1.21.3-r0 \
         bash=5.1.16-r2
 
-ARG WINEPREFIX="/root/.wine"
-ARG WINEDLLOVERRIDES="mscoree,mshtml=,winebrowser.exe="
-ARG WINEARCH="win32"
+ENV WINEPREFIX="/root/.wine"
+ENV WINEDLLOVERRIDES="mscoree,mshtml=,winebrowser.exe="
+ENV WINEARCH="win32"
 
 RUN wget -O /tmp/mt5setup.exe https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe &&  \
     (xvfb-run -a wine /tmp/mt5setup.exe /auto || true) && \
