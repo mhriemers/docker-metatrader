@@ -23,8 +23,13 @@ RUN wget -O /tmp/mt4setup.exe ${MT4_URL} &&  \
     [ -d "${WINEPREFIX}/drive_c/Program Files/${MT4_DIR_NAME}/" ] && \
     rm /tmp/mt4setup.exe
 
-COPY entrypoint.sh /bin/entrypoint
-RUN chmod +x /bin/entrypoint
+ENV MT_VERSION=4
+ENV MT_INSTALLATION="${WINEPREFIX}/drive_c/Program Files/${MT4_DIR_NAME}/"
 
-ENTRYPOINT ["/bin/entrypoint", "-4", "-i", "${WINEPREFIX}/drive_c/Program Files/${MT4_DIR_NAME}/"]
-CMD ["verify"]
+COPY metaeditor.sh /usr/bin/metaeditor
+RUN chmod +x /usr/bin/metaeditor
+
+COPY terminal.sh /usr/bin/terminal
+RUN chmod +x /usr/bin/terminal
+
+ENTRYPOINT ["/bin/bash"]

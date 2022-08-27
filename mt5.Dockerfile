@@ -21,8 +21,13 @@ RUN wget -O /tmp/mt5setup.exe https://download.mql5.com/cdn/web/metaquotes.softw
     [ -d "${WINEPREFIX}/drive_c/Program Files/MetaTrader 5/" ] && \
     rm -rf /tmp/*
 
-COPY entrypoint.sh /bin/entrypoint
-RUN chmod +x /bin/entrypoint
+ENV MT_VERSION=5
+ENV MT_INSTALLATION="${WINEPREFIX}/drive_c/Program Files/MetaTrader 5/"
 
-ENTRYPOINT ["/bin/entrypoint", "-5", "-i", "${WINEPREFIX}/drive_c/Program Files/MetaTrader 5/"]
-CMD ["verify"]
+COPY metaeditor.sh /usr/bin/metaeditor
+RUN chmod +x /usr/bin/metaeditor
+
+COPY terminal.sh /usr/bin/terminal
+RUN chmod +x /usr/bin/terminal
+
+ENTRYPOINT ["/bin/bash"]
