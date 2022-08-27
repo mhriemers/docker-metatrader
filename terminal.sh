@@ -11,9 +11,9 @@ if [ -z "${MT_INSTALLATION}" ]; then
 fi
 
 if [ "${MT_VERSION}" == "4" ]; then
-  exec wine "${MT_INSTALLATION}terminal.exe" "$@"
+  exec xvfb-run -a wine "${MT_INSTALLATION}terminal.exe" "$@"
 elif [ "${MT_VERSION}" == "5" ]; then
-  exec wine "${MT_INSTALLATION}terminal64.exe" "$@"
+  exec xvfb-run -a wine "${MT_INSTALLATION}terminal64.exe" "$@"
 else
   echo "Unsupported MetaTrader version!"
   exit 1
