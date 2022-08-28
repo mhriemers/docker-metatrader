@@ -33,9 +33,9 @@ ENV MT_TERMINAL_EXE_PATH $MT_INSTALLATION$MT_TERMINAL_EXE_PATH
 
 RUN wget -O /tmp/mtsetup.exe $MT_URL &&  \
     (xvfb-run -a wine /tmp/mtsetup.exe /auto || true) && \
-    test -d $MT_INSTALLATION && \
-    test -f $MT_EDITOR_EXE_PATH && \
-    test -f $MT_TERMINAL_EXE_PATH && \
+    test -d "$MT_INSTALLATION" && \
+    test -f "$MT_EDITOR_EXE_PATH" && \
+    test -f "$MT_TERMINAL_EXE_PATH" && \
     rm /tmp/mtsetup.exe
 
 ENV MT_EDITOR_PATH /usr/bin/metaeditor
