@@ -22,23 +22,23 @@ jobs:
               mhriemers/metatrader-4
               ghcr.io/mhriemers/metatrader-4
             build-args: |
-              WINEARCH="win32"
-              MT_VERSION="4"
-              MT_URL="https://download.mql5.com/cdn/web/tf.global.markets/mt4/thinkmarkets4setup.exe"
+              WINEARCH=win32
+              MT_VERSION=4
+              MT_URL=https://download.mql5.com/cdn/web/tf.global.markets/mt4/thinkmarkets4setup.exe
               MT_DIR_NAME="ThinkMarkets MetaTrader 4"
-              MT_EDITOR_EXE_NAME="terminal.exe"
-              MT_TERMINAL_EXE_NAME="metaeditor.exe"
+              MT_EDITOR_EXE_NAME=terminal.exe
+              MT_TERMINAL_EXE_NAME=metaeditor.exe
           - name: MetaTrader 5
             images: |
               mhriemers/metatrader-5
               ghcr.io/mhriemers/metatrader-5
             build-args: |
-              WINEARCH="win64"
-              MT_VERSION="5"
-              MT_URL="https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe"
+              WINEARCH=win64
+              MT_VERSION=5
+              MT_URL=https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe
               MT_DIR_NAME="MetaTrader 5"
-              MT_EDITOR_EXE_NAME="terminal64.exe"
-              MT_TERMINAL_EXE_NAME="metaeditor64.exe"
+              MT_EDITOR_EXE_NAME=terminal64.exe
+              MT_TERMINAL_EXE_NAME=metaeditor64.exe
     steps:
       - uses: actions/checkout@v3
       - uses: docker/setup-qemu-action@v2
