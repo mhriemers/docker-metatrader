@@ -13,6 +13,7 @@ fi
 if [ ! -r "${MT_INSTALLATION}" ]; then
   echo "MetaTrader installation is not readable!"
   echo "Current user: $(id)"
+  echo "Directory permissions: $(ls -nd "${MT_INSTALLATION}")"
   exit 1
 fi
 
