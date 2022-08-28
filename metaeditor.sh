@@ -1,14 +1,18 @@
 #!/usr/bin/env bash
 
 if [[ -z "${MT_VERSION}" ]]; then
-  echo "Missing MetaTrader version"
+  echo "Missing \$MT_VERSION"
   exit 1
 fi
 
+echo "MetaTrader ${MT_VERSION} selected."
+
 if [[ -z "${MT_INSTALLATION}" ]]; then
-  echo "Missing MetaTrader installation"
+  echo "Missing \$MT_INSTALLATION"
   exit 1
 fi
+
+echo "MetaTrader ${MT_VERSION} installed at ${MT_INSTALLATION}."
 
 if [[ ! -r "${MT_INSTALLATION}" ]]; then
   echo "MetaTrader installation is not readable!"
@@ -17,11 +21,11 @@ if [[ ! -r "${MT_INSTALLATION}" ]]; then
   exit 1
 fi
 
-if [[ "${MT_VERSION}" == "4" ]]; then
-  exec xvfb-run -a wine "${MT_INSTALLATION}metaeditor.exe" "$@"
-elif [[ "${MT_VERSION}" == "5" ]]; then
-  exec xvfb-run -a wine "${MT_INSTALLATION}metaeditor64.exe" "$@"
-else
-  echo "Unsupported MetaTrader version!"
+if [[ -z "${MT_EDITOR_EXE_PATH}" ]]; then
+  echo "Missing \$MT_EDITOR_EXE_PATH"
   exit 1
 fi
+
+echo "MetaEditor .exe located at ${MT_EDITOR_EXE_PATH}"
+
+exec xvfb-run -a wine "${MT_EDITOR_EXE_PATH}" "$@"
