@@ -11,9 +11,9 @@ ARG WINE_BRANCH=staging
 RUN wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key && \
     . /etc/os-release && \
     wget -nc -P /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/ubuntu/dists/$VERSION_CODENAME/winehq-$VERSION_CODENAME.sources && \
-    dpkg --add-architecture i386 &&  \
-    apt-get update &&  \
-    DEBIAN_FRONTEND="noninteractive" apt-get install -y --install-recommends winehq-$WINE_BRANCH &&  \
+    dpkg --add-architecture i386 && \
+    apt-get update && \
+    DEBIAN_FRONTEND="noninteractive" apt-get install -y --install-recommends winehq-$WINE_BRANCH && \
     rm -rf /var/lib/apt/lists/*
 
 ARG WINEARCH
