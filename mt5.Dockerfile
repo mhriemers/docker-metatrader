@@ -18,7 +18,6 @@ RUN wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/win
 
 ENV WINEPREFIX="/root/.wine"
 ENV WINEDLLOVERRIDES="mscoree,mshtml=,winebrowser.exe="
-ENV WINEARCH="win32"
 RUN wget -O /tmp/mt5setup.exe https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe &&  \
     (xvfb-run -a wine /tmp/mt5setup.exe /auto || true) && \
     [ -d "${WINEPREFIX}/drive_c/Program Files/MetaTrader 5/" ] && \
