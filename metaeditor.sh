@@ -10,6 +10,12 @@ if [ -z "${MT_INSTALLATION}" ]; then
   exit 1
 fi
 
+if [ ! -r "${MT_INSTALLATION}" ]; then
+  echo "MetaTrader installation is not readable!"
+  echo "Current user: $(id)"
+  exit 1
+fi
+
 if [ "${MT_VERSION}" == "4" ]; then
   exec xvfb-run -a wine "${MT_INSTALLATION}metaeditor.exe" "$@"
 elif [ "${MT_VERSION}" == "5" ]; then
