@@ -16,9 +16,9 @@ RUN wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/win
     DEBIAN_FRONTEND="noninteractive" apt-get install -y --install-recommends winehq-${WINE_BRANCH} &&  \
     rm -rf /var/lib/apt/lists/*
 
-ENV WINEPREFIX "/root/.wine"
-ENV WINEDLLOVERRIDES "mscoree,mshtml=,winebrowser.exe="
-ENV WINEARCH ${WINEARCH}
+ENV WINEPREFIX="/root/.wine"
+ENV WINEDLLOVERRIDES="mscoree,mshtml=,winebrowser.exe="
+ENV WINEARCH="${WINEARCH}"
 
 ARG MT_VERSION
 ARG MT_URL
@@ -26,10 +26,10 @@ ARG MT_DIR_NAME
 ARG MT_EDITOR_EXE_NAME
 ARG MT_TERMINAL_EXE_NAME
 
-ENV MT_VERSION ${MT_VERSION}
-ENV MT_INSTALLATION "${WINEPREFIX}/drive_c/Program Files/${MT_DIR_NAME}/"
-ENV MT_EDITOR_EXE_PATH "${MT_INSTALLATION}${MT_EDITOR_EXE_PATH}"
-ENV MT_TERMINAL_EXE_PATH "${MT_INSTALLATION}${MT_TERMINAL_EXE_PATH}"
+ENV MT_VERSION="${MT_VERSION}"
+ENV MT_INSTALLATION="${WINEPREFIX}/drive_c/Program Files/${MT_DIR_NAME}/"
+ENV MT_EDITOR_EXE_PATH="${MT_INSTALLATION}${MT_EDITOR_EXE_PATH}"
+ENV MT_TERMINAL_EXE_PATH="${MT_INSTALLATION}${MT_TERMINAL_EXE_PATH}"
 
 RUN wget -O /tmp/mtsetup.exe ${MT_URL} &&  \
     (xvfb-run -a wine /tmp/mtsetup.exe /auto || true) && \
