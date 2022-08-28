@@ -25,6 +25,7 @@ ARG MT_TERMINAL_EXE_NAME
 
 ENV WINEPREFIX /root/.wine
 ENV WINEDLLOVERRIDES mscoree,mshtml=,winebrowser.exe=
+ENV WINEDEBUG warn-all,fixme-all,err-alsa,-ole,-toolbar
 ENV WINEARCH $WINEARCH
 ENV MT_VERSION $MT_VERSION
 ENV MT_INSTALLATION $WINEPREFIX/drive_c/Program Files/$MT_DIR_NAME/
