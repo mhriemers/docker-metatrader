@@ -31,4 +31,4 @@ RUN chmod +x /usr/bin/metaeditor
 COPY terminal.sh /usr/bin/terminal
 RUN chmod +x /usr/bin/terminal
 
-ENTRYPOINT ["/bin/bash"]
+CMD ["/bin/bash"]
