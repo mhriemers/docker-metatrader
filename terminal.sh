@@ -19,6 +19,6 @@ if [[ ! -r "${MT_TERMINAL_EXE_PATH}" ]]; then
   exit 1
 fi
 
-echo "MetaTrader Terminal .exe located at ${MT_TERMINAL_EXE_PATH}"
+echo "MetaTrader Terminal .exe located at ${MT_TERMINAL_EXE_PATH}" 1>&2
 
 exec xvfb-run -a wine "${MT_TERMINAL_EXE_PATH}" "$@"

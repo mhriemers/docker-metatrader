@@ -19,6 +19,6 @@ if [[ ! -r "${MT_EDITOR_EXE_PATH}" ]]; then
   exit 1
 fi
 
-echo "MetaEditor .exe located at ${MT_EDITOR_EXE_PATH}"
+echo "MetaEditor .exe located at ${MT_EDITOR_EXE_PATH}" 1>&2
 
 exec xvfb-run -a wine "${MT_EDITOR_EXE_PATH}" "$@"
