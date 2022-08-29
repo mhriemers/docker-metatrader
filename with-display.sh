@@ -26,5 +26,6 @@ RET_VAL=$?
 pkill x11vnc || true
 pkill Xvfb || true
 pkill fluxbox || true
+wait
 
 exit $RET_VAL
