@@ -54,4 +54,6 @@ ENV MT_TERMINAL_PATH /usr/bin/terminal
 COPY terminal.sh $MT_TERMINAL_PATH
 RUN chmod +x $MT_TERMINAL_PATH
 
+EXPOSE 5900/tcp
+
 CMD ["/bin/bash"]
