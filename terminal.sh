@@ -21,4 +21,4 @@ fi
 
 echo "MetaTrader Terminal .exe located at ${MT_TERMINAL_EXE_PATH}" 1>&2
 
-exec xvfb-run -a wine "${MT_TERMINAL_EXE_PATH}" "$@"
+exec with-display wine "${MT_TERMINAL_EXE_PATH}" "$@"
