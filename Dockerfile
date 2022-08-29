@@ -4,7 +4,11 @@ RUN apt-get update && \
     DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-install-recommends \
         ca-certificates \
         wget \
-        xvfb && \
+        procps \
+        xvfb \
+        x11vnc \
+        x11-utils \
+        fluxbox && \
     rm -rf /var/lib/apt/lists/*
 
 ARG WINE_BRANCH=staging
@@ -15,6 +19,9 @@ RUN wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/win
     apt-get update && \
     DEBIAN_FRONTEND="noninteractive" apt-get install -y --install-recommends winehq-$WINE_BRANCH && \
     rm -rf /var/lib/apt/lists/*
+
+COPY with-display.sh /usr/bin/with-display
+RUN chmod +x /usr/bin/with-display
 
 ARG WINEARCH
 ARG MT_VERSION
@@ -33,7 +40,7 @@ ENV MT_EDITOR_EXE_PATH $MT_INSTALLATION$MT_EDITOR_EXE_NAME
 ENV MT_TERMINAL_EXE_PATH $MT_INSTALLATION$MT_TERMINAL_EXE_NAME
 
 RUN wget -O /tmp/mtsetup.exe $MT_URL &&  \
-    (xvfb-run -a wine /tmp/mtsetup.exe /auto || true) && \
+    (with-display wine /tmp/mtsetup.exe /auto || true) && \
     test -d "$MT_INSTALLATION" && \
     test -f "$MT_EDITOR_EXE_PATH" && \
     test -f "$MT_TERMINAL_EXE_PATH" && \
@@ -46,5 +53,7 @@ RUN chmod +x $MT_EDITOR_PATH
 ENV MT_TERMINAL_PATH /usr/bin/terminal
 COPY terminal.sh $MT_TERMINAL_PATH
 RUN chmod +x $MT_TERMINAL_PATH
+
+EXPOSE 5900/tcp
 
 CMD ["/bin/bash"]

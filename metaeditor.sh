@@ -21,4 +21,4 @@ fi
 
 echo "MetaEditor .exe located at ${MT_EDITOR_EXE_PATH}" 1>&2
 
-exec xvfb-run -a wine "${MT_EDITOR_EXE_PATH}" "$@"
+exec wine "${MT_EDITOR_EXE_PATH}" "$@"
