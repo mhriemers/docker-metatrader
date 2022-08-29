@@ -4,7 +4,7 @@ export DISPLAY=:0
 
 x11vnc -bg -forever -nopw -quiet -display WAIT$DISPLAY &
 fluxbox 2>/dev/null &
-Xvfb $DISPLAY -screen 0 1920x1080x24 +extension RANDR &
+Xvfb $DISPLAY -screen 0 1920x1200x24 +extension RANDR &
 
 MAX_ATTEMPTS=120
 COUNT=0
