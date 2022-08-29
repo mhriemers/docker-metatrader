@@ -5,6 +5,7 @@ RUN apt-get update && \
         ca-certificates \
         wget \
         procps \
+        eterm \
         xvfb \
         x11vnc \
         x11-utils \
