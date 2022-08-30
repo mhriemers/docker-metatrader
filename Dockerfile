@@ -41,6 +41,7 @@ ENV MT_EDITOR_EXE_PATH $MT_INSTALLATION$MT_EDITOR_EXE_NAME
 ENV MT_TERMINAL_EXE_PATH $MT_INSTALLATION$MT_TERMINAL_EXE_NAME
 
 RUN wget -O /tmp/mtsetup.exe $MT_URL &&  \
+    winecfg -v=win10 && \
     (with-display wine /tmp/mtsetup.exe /auto || true) && \
     test -d "$MT_INSTALLATION" && \
     test -f "$MT_EDITOR_EXE_PATH" && \

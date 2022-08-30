@@ -24,8 +24,8 @@ jobs:
             build-args: |
               WINEARCH=win32
               MT_VERSION=4
-              MT_URL=https://download.mql5.com/cdn/web/tf.global.markets/mt4/thinkmarkets4setup.exe
-              MT_DIR_NAME=ThinkMarkets MetaTrader 4
+              MT_URL=https://download.mql5.com/cdn/web/metaquotes.software.corp/mt4/mt4oldsetup.exe
+              MT_DIR_NAME=MetaTrader 4
               MT_EDITOR_EXE_NAME=metaeditor.exe
               MT_TERMINAL_EXE_NAME=terminal.exe
           - name: MetaTrader 5
