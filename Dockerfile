@@ -43,7 +43,7 @@ ENV MT_EDITOR_EXE_PATH $MT_INSTALLATION$MT_EDITOR_EXE_NAME
 ENV MT_TERMINAL_EXE_PATH $MT_INSTALLATION$MT_TERMINAL_EXE_NAME
 
 RUN wget -O /tmp/mtsetup.exe $MT_URL &&  \
-    (with-display wine /tmp/mtsetup.exe /auto || true) && \
+    (with-display -n wine /tmp/mtsetup.exe /auto || true) && \
     test -d "$MT_INSTALLATION" && \
     test -f "$MT_EDITOR_EXE_PATH" && \
     test -f "$MT_TERMINAL_EXE_PATH" && \

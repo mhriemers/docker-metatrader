@@ -1,9 +1,37 @@
 #!/usr/bin/env bash
 
-export DISPLAY=:0
+find_free_servernum() {
+    local i=0
+    while [ -f /tmp/.X${i}-lock ]; do
+        i=$((i + 1))
+    done
+    echo $i
+}
 
-x11vnc -rfbport "${VNC_PORT:-5900}" -bg -forever -nopw -quiet -display WAIT$DISPLAY &
-Xvfb $DISPLAY -screen 0 1920x1200x24 +extension RANDR &
+USE_VNC=true
+
+while getopts "n" arg; do
+  case $arg in
+    n)
+      USE_VNC=false
+      ;;
+    *)
+      exit 1
+  esac
+done
+shift $((OPTIND-1))
+
+SERVER_NUM=$(find_free_servernum)
+export DISPLAY=":${SERVER_NUM}"
+echo "Set display to $DISPLAY"
+
+echo "Starting virtual framebuffer"
+Xvfb "${DISPLAY}" -screen 0 1920x1200x24 +extension RANDR &
+
+if [[ $USE_VNC == true ]]; then
+  echo "Starting VNC server on port $VNC_PORT"
+  x11vnc -rfbport "${VNC_PORT:-5900}" -bg -forever -nopw -quiet -display "WAIT${DISPLAY}" &
+fi
 
 MAX_ATTEMPTS=120
 COUNT=0
@@ -13,20 +41,32 @@ while ! xdpyinfo -display "${DISPLAY}" >/dev/null 2>&1; do
   sleep 0.50s
   COUNT=$(( COUNT + 1 ))
   if [[ ${COUNT} -ge ${MAX_ATTEMPTS} ]]; then
-    echo "  Gave up waiting for X server on ${DISPLAY}"
+    echo "=> Gave up waiting for X server on ${DISPLAY}"
     exit 1
   fi
 done
-echo "  Done - Xvfb is ready!"
+echo "=> Done - Xvfb is ready!"
 
-fluxbox 2>/dev/null &
+if [[ $USE_VNC == true ]]; then
+  echo "Starting fluxbox"
+  fluxbox &
+fi
 
 "$@"
 RET_VAL=$?
 
-pkill x11vnc || true
-pkill Xvfb || true
-pkill fluxbox || true
+if [[ $USE_VNC == true ]]; then
+  echo "Stopping fluxbox"
+  pkill -2 fluxbox || true
+
+  echo "Stopping x11vnc"
+  pkill -2 x11vnc || true
+fi
+
+
+echo "Stopping Xvfb"
+pkill -2 Xvfb || true
+
 wait
 
 unset DISPLAY
