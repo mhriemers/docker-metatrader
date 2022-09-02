@@ -57,14 +57,14 @@ RET_VAL=$?
 
 if [[ $USE_VNC == true ]]; then
   echo "Stopping fluxbox"
-  pkill -2 fluxbox || true
+  pkill fluxbox || true
 
   echo "Stopping x11vnc"
-  pkill -2 x11vnc || true
+  pkill x11vnc || true
 fi
 
 echo "Stopping Xvfb"
-pkill -2 Xvfb || true
+pkill Xvfb || true
 
 wait
 
