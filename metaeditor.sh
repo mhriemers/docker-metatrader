@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -e
+
 if [[ -z "${MT_EDITOR_EXE_PATH}" ]]; then
   echo "Missing \$MT_EDITOR_EXE_PATH"
   exit 1
