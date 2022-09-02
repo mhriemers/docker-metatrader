@@ -79,4 +79,5 @@ pkill Xvfb || true
 
 wait
 unset DISPLAY
+trap - SIGTERM
 exit $RET_VAL
