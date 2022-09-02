@@ -3,9 +3,20 @@
 set -e
 
 cleanup() {
-  trap - SIGINT SIGTERM
+  trap - SIGINT SIGTERM EXIT
+  if [[ $USE_VNC == true ]]; then
+    echo "Stopping fluxbox"
+    pkill fluxbox || true
+
+    echo "Stopping x11vnc"
+    pkill x11vnc || true
+  fi
+
+  echo "Stopping Xvfb"
+  pkill Xvfb || true
+
+  wait
   unset DISPLAY
-  kill 0
 }
 
 find_free_servernum() {
@@ -16,7 +27,7 @@ find_free_servernum() {
   echo $i
 }
 
-trap 'cleanup' SIGINT SIGTERM
+trap 'cleanup' SIGINT SIGTERM EXIT
 
 USE_VNC=true
 
@@ -65,18 +76,4 @@ fi
 
 "$@"
 RET_VAL=$?
-
-if [[ $USE_VNC == true ]]; then
-  echo "Stopping fluxbox"
-  pkill fluxbox || true
-
-  echo "Stopping x11vnc"
-  pkill x11vnc || true
-fi
-
-echo "Stopping Xvfb"
-pkill Xvfb || true
-
-wait
-unset DISPLAY
 exit $RET_VAL
