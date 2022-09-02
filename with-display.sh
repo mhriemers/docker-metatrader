@@ -3,7 +3,7 @@
 set -e
 
 cleanup() {
-  trap - SIGTERM
+  trap - SIGINT SIGTERM
   unset DISPLAY
   kill 0
 }
@@ -16,7 +16,7 @@ find_free_servernum() {
   echo $i
 }
 
-trap 'cleanup' SIGINT SIGTERM EXIT
+trap 'cleanup' SIGINT SIGTERM
 
 USE_VNC=true
 
@@ -79,5 +79,4 @@ pkill Xvfb || true
 
 wait
 unset DISPLAY
-trap - SIGTERM
 exit $RET_VAL
