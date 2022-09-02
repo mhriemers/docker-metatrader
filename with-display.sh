@@ -41,11 +41,11 @@ while ! xdpyinfo -display "${DISPLAY}" >/dev/null 2>&1; do
   sleep 0.50s
   COUNT=$(( COUNT + 1 ))
   if [[ ${COUNT} -ge ${MAX_ATTEMPTS} ]]; then
-    echo "=> Gave up waiting for X server on ${DISPLAY}"
+    echo "  Gave up waiting for X server on ${DISPLAY}"
     exit 1
   fi
 done
-echo "=> Done - Xvfb is ready!"
+echo "  Done - Xvfb is ready!"
 
 if [[ $USE_VNC == true ]]; then
   echo "Starting fluxbox"
@@ -62,7 +62,6 @@ if [[ $USE_VNC == true ]]; then
   echo "Stopping x11vnc"
   pkill -2 x11vnc || true
 fi
-
 
 echo "Stopping Xvfb"
 pkill -2 Xvfb || true
