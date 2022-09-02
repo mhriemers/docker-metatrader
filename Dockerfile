@@ -24,6 +24,8 @@ RUN wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/win
 COPY with-display.sh /usr/bin/with-display
 RUN chmod +x /usr/bin/with-display
 
+ENV VNC_PORT 5900
+
 ARG WINEARCH
 ARG MT_VERSION
 ARG MT_URL
@@ -55,6 +57,6 @@ ENV MT_TERMINAL_PATH /usr/bin/terminal
 COPY terminal.sh $MT_TERMINAL_PATH
 RUN chmod +x $MT_TERMINAL_PATH
 
-EXPOSE 5900/tcp
+EXPOSE $VNC_PORT/tcp
 
 CMD ["/bin/bash"]

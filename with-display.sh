@@ -2,7 +2,7 @@
 
 export DISPLAY=:0
 
-x11vnc -bg -forever -nopw -quiet -display WAIT$DISPLAY &
+x11vnc -rfbport "${VNC_PORT:-5900}" -bg -forever -nopw -quiet -display WAIT$DISPLAY &
 Xvfb $DISPLAY -screen 0 1920x1200x24 +extension RANDR &
 
 MAX_ATTEMPTS=120
@@ -28,5 +28,7 @@ pkill x11vnc || true
 pkill Xvfb || true
 pkill fluxbox || true
 wait
+
+unset DISPLAY
 
 exit $RET_VAL
