@@ -4,12 +4,7 @@ RUN apt-get update && \
     DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-install-recommends \
         ca-certificates \
         wget \
-        procps \
-        eterm \
-        xvfb \
-        x11vnc \
-        x11-utils \
-        fluxbox && \
+        xvfb && \
     rm -rf /var/lib/apt/lists/*
 
 ARG WINE_BRANCH=staging
@@ -21,13 +16,7 @@ RUN wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/win
     DEBIAN_FRONTEND="noninteractive" apt-get install -y --install-recommends winehq-$WINE_BRANCH && \
     rm -rf /var/lib/apt/lists/*
 
-COPY with-display.sh /usr/bin/with-display
-RUN chmod +x /usr/bin/with-display
-
-ENV VNC_PORT 5900
-
 ARG WINEARCH
-ARG MT_VERSION
 ARG MT_URL
 ARG MT_DIR_NAME
 ARG MT_EDITOR_EXE_NAME
@@ -37,26 +26,15 @@ ENV WINEPREFIX /root/.wine
 ENV WINEDLLOVERRIDES mscoree,mshtml=,winebrowser.exe=
 ENV WINEDEBUG warn-all,fixme-all,err-alsa,-ole,-toolbar
 ENV WINEARCH $WINEARCH
-ENV MT_VERSION $MT_VERSION
 ENV MT_INSTALLATION $WINEPREFIX/drive_c/Program Files/$MT_DIR_NAME/
 ENV MT_EDITOR_EXE_PATH $MT_INSTALLATION$MT_EDITOR_EXE_NAME
 ENV MT_TERMINAL_EXE_PATH $MT_INSTALLATION$MT_TERMINAL_EXE_NAME
 
-RUN wget -O /tmp/mtsetup.exe $MT_URL &&  \
-    (with-display -n wine /tmp/mtsetup.exe /auto || true) && \
+ADD $MT_URL /tmp/mtsetup.exe
+RUN (xvfb-run -a wine /tmp/mtsetup.exe /auto || true) && \
     test -d "$MT_INSTALLATION" && \
     test -f "$MT_EDITOR_EXE_PATH" && \
     test -f "$MT_TERMINAL_EXE_PATH" && \
     rm /tmp/mtsetup.exe
-
-ENV MT_EDITOR_PATH /usr/bin/metaeditor
-COPY metaeditor.sh $MT_EDITOR_PATH
-RUN chmod +x $MT_EDITOR_PATH
-
-ENV MT_TERMINAL_PATH /usr/bin/terminal
-COPY terminal.sh $MT_TERMINAL_PATH
-RUN chmod +x $MT_TERMINAL_PATH
-
-EXPOSE $VNC_PORT/tcp
 
 CMD ["/bin/bash"]
