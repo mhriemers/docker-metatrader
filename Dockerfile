@@ -17,7 +17,6 @@ RUN wget -nc -O /usr/share/keyrings/winehq-archive.key https://dl.winehq.org/win
     rm -rf /var/lib/apt/lists/*
 
 ARG WINEARCH
-ARG MT_URL
 ARG MT_DIR_NAME
 ARG MT_EDITOR_EXE_NAME
 ARG MT_TERMINAL_EXE_NAME
@@ -30,7 +29,7 @@ ENV MT_INSTALLATION $WINEPREFIX/drive_c/Program Files/$MT_DIR_NAME/
 ENV MT_EDITOR_EXE_PATH $MT_INSTALLATION$MT_EDITOR_EXE_NAME
 ENV MT_TERMINAL_EXE_PATH $MT_INSTALLATION$MT_TERMINAL_EXE_NAME
 
-ADD $MT_URL /tmp/mtsetup.exe
+COPY mtsetup.exe /tmp/mtsetup.exe
 RUN (xvfb-run -a wine /tmp/mtsetup.exe /auto || true) && \
     test -d "$MT_INSTALLATION" && \
     test -f "$MT_EDITOR_EXE_PATH" && \
