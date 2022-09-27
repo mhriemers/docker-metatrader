@@ -1,4 +1,4 @@
-FROM mhriemers/wine:sha-93f96620075f69c219c56623ec4dd32360bac141
+FROM mhriemers/wine:latest
 
 RUN apt-get update && \
     DEBIAN_FRONTEND="noninteractive" apt-get install -y --no-install-recommends \
