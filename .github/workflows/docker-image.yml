@@ -1,0 +1,72 @@
+name: Build
+
+on:
+  push:
+    branches:
+      - 'main'
+    tags:
+      - 'v*'
+  pull_request:
+    branches:
+      - 'main'
+
+jobs:
+  docker:
+    name: Docker (${{ matrix.name }})
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - name: MetaTrader 4
+            images: |
+              mhriemers/metatrader-4
+              ghcr.io/mhriemers/metatrader-4
+            url: https://download.mql5.com/cdn/web/metaquotes.software.corp/mt4/mt4oldsetup.exe
+            build-args: |
+              WINEARCH=win32
+              MT_DIR_NAME=MetaTrader 4
+              MT_EDITOR_EXE_NAME=metaeditor.exe
+              MT_TERMINAL_EXE_NAME=terminal.exe
+          - name: MetaTrader 5
+            images: |
+              mhriemers/metatrader-5
+              ghcr.io/mhriemers/metatrader-5
+            url: https://download.mql5.com/cdn/web/metaquotes.software.corp/mt5/mt5setup.exe
+            build-args: |
+              WINEARCH=win64
+              MT_DIR_NAME=MetaTrader 5
+              MT_EDITOR_EXE_NAME=metaeditor64.exe
+              MT_TERMINAL_EXE_NAME=terminal64.exe
+    steps:
+      - uses: actions/checkout@v3
+      - uses: docker/setup-qemu-action@v2
+      - uses: docker/setup-buildx-action@v2
+      - uses: docker/metadata-action@v4
+        id: meta
+        with:
+          images: ${{ matrix.images }}
+          tags: |
+            type=ref,event=branch
+            type=ref,event=pr
+            type=semver,pattern={{version}}
+            type=semver,pattern={{major}}.{{minor}}
+            type=sha,format=long
+      - uses: docker/login-action@v2
+        if: github.event_name != 'pull_request'
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - uses: docker/login-action@v2
+        if: github.event_name != 'pull_request'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      - run: wget -O mtsetup.exe ${{ matrix.url }}
+      - uses: docker/build-push-action@v3
+        with:
+          context: .
+          build-args: ${{ matrix.build-args }}
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
