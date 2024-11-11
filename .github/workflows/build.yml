@@ -39,7 +39,7 @@ jobs:
               MT_TERMINAL_EXE_NAME=terminal64.exe
     steps:
       - uses: actions/checkout@v3
-      - uses: docker/setup-qemu-action@v2
+      - uses: docker/setup-qemu-action@v3
       - uses: docker/setup-buildx-action@v2
       - uses: docker/metadata-action@v4
         id: meta
